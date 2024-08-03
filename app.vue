@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h1>My Note App</h1>
+      <h1>Happy Notes</h1>
       <nav>
         <ul>
           <li><NuxtLink to="/">Home</NuxtLink></li>
@@ -13,7 +13,7 @@
       <NuxtPage />
     </main>
     <footer>
-      <p>&copy; 2024 My Note App</p>
+      <p>&copy; 2024 Happy Notes</p>
     </footer>
   </div>
 </template>
