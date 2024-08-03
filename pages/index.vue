@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { fetchLatestNotes } from '~/services/notes'
+import { fetchLatestNotes } from '~/api/notes'
 import type { NoteResponse } from '~/types/note'
 
 const notes = ref<NoteResponse | null>(null)
