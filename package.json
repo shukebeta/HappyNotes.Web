@@ -10,6 +10,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "axios": "^1.7.3",
+    "dotenv": "^16.4.5",
     "module": "link:@nuxt/typescript-build/module",
     "nuxt": "^3.12.4",
     "vue": "latest",

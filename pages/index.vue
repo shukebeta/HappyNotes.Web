@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { fetchLatestNotes } from '~/api/notes'
 import type { NoteResponse } from '~/types/note'
+import { useNuxtApp } from '#app'
 
 const notes = ref<NoteResponse | null>(null)
 const error = ref<string | null>(null)
 
 onMounted(async () => {
+  const {$api} = useNuxtApp()
   try {
-    notes.value = await fetchLatestNotes()
+    notes.value = await $api.note.latest(5, 1)
   } catch (err) {
     error.value = (err as Error).message
   }
