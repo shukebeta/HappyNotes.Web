@@ -1,18 +1,32 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import type { NoteResponse } from '~/types/note'
 import { useNuxtApp } from '#app'
+import Pager from '~/components/pager.vue'
 
 const notes = ref<NoteResponse | null>(null)
 const error = ref<string | null>(null)
+const currentPage = ref(1)
+const itemsPerPage = ref(5)
+const totalItems = ref(0) // Assuming you'll get this from your API
 
-onMounted(async () => {
-  const {$api} = useNuxtApp()
+const fetchNotes = async (page: number, size: number) => {
+  const { $api } = useNuxtApp()
   try {
-    notes.value = await $api.note.latest(5, 1)
+    const response = await $api.note.latest(size, page)
+    notes.value = response
+    totalItems.value = response.data.totalCount
   } catch (err) {
     error.value = (err as Error).message
   }
+}
+
+onMounted(() => {
+  fetchNotes(currentPage.value, itemsPerPage.value)
+})
+
+watch(currentPage, (newPage) => {
+  fetchNotes(newPage, itemsPerPage.value)
 })
 </script>
 
@@ -28,6 +42,12 @@ onMounted(async () => {
           Created at: {{ new Date(note.createdAt * 1000).toLocaleDateString() }}
         </li>
       </ul>
+      <Pager
+          :totalItems="totalItems"
+          :itemsPerPage="itemsPerPage"
+          :currentPage.sync="currentPage"
+          @update:currentPage="currentPage = $event"
+      />
     </div>
     <div v-else>Loading...</div>
   </div>
