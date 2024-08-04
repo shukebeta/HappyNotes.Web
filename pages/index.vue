@@ -6,9 +6,11 @@ import Pager from '~/components/pager.vue'
 
 const notes = ref<NoteResponse | null>(null)
 const error = ref<string | null>(null)
-const currentPage = ref(1)
 const itemsPerPage = ref(5)
 const totalItems = ref(0) // Assuming you'll get this from your API
+const router = useRouter()
+const route = useRoute()
+const currentPage = ref(parseInt(route.query.page as string) || 1)
 
 const fetchNotes = async (page: number, size: number) => {
   const { $api } = useNuxtApp()
@@ -27,6 +29,13 @@ onMounted(() => {
 
 watch(currentPage, (newPage) => {
   fetchNotes(newPage, itemsPerPage.value)
+  router.push({ query: { ...route.query, page: newPage.toString() } })
+})
+
+watch(route, (newRoute) => {
+  if (newRoute.query.page && parseInt(newRoute.query.page as string) !== currentPage.value) {
+    currentPage.value = parseInt(newRoute.query.page as string) || 1
+  }
 })
 </script>
 
