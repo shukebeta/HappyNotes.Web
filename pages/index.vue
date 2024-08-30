@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import type { NoteResponse } from '~/types/note'
+import type { Note} from '~/types/note'
 import { useNuxtApp } from '#app'
 import Pager from '~/components/pager.vue'
 
-const notes = ref<NoteResponse | null>(null)
+const notes = ref<Note[] | null>(null)
 const error = ref<string | null>(null)
 const itemsPerPage = ref(5)
 const totalItems = ref(0) // Assuming you'll get this from your API
@@ -16,7 +16,7 @@ const fetchNotes = async (page: number, size: number) => {
   const { $api } = useNuxtApp()
   try {
     const response = await $api.note.latest(size, page)
-    notes.value = response
+    notes.value = response.data.dataList
     totalItems.value = response.data.totalCount
   } catch (err) {
     error.value = (err as Error).message
@@ -45,7 +45,7 @@ watch(route, (newRoute) => {
     <div v-if="error">{{ error }}</div>
     <div v-else-if="notes">
       <ul>
-        <li v-for="note in notes.data.dataList" :key="note.id">
+        <li v-for="note in notes" :key="note.id">
           {{ note.content.substring(0, 300) }}...
           <br />
           <!-- Add a nuxt-link to navigate to the note detail page -->
