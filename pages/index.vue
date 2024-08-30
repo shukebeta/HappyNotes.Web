@@ -46,9 +46,12 @@ watch(route, (newRoute) => {
     <div v-else-if="notes">
       <ul>
         <li v-for="note in notes.data.dataList" :key="note.id">
-          {{ note.content.substring(0, 20) }}...
+          {{ note.content.substring(0, 300) }}...
           <br />
-          Created at: {{ new Date(note.createdAt * 1000).toLocaleDateString() }}
+          <!-- Add a nuxt-link to navigate to the note detail page -->
+          <nuxt-link :to="{ name: 'note-id', params: { id: note.id } }">
+            Created at: {{ new Date(note.createdAt * 1000).toLocaleDateString() }}
+          </nuxt-link>
         </li>
       </ul>
       <Pager

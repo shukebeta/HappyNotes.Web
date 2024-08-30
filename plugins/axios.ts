@@ -16,6 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         // note service
         note: {
             latest: (pageSize, pageNumber) => api.get(`/notes/latest/${pageSize}/${pageNumber}`),
+            getById: (id: number) => api.get(`/note/get/${id}`),
         },
     }
 

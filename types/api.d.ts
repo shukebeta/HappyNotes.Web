@@ -4,6 +4,7 @@ interface ApiService {
     };
     note: {
         latest: (pageSize: number, pageNumber: number) => Promise<any>;
+        getById: (id: number) => Promise<any>;
     };
     // Add more interfaces as needed
 }

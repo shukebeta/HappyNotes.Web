@@ -33,3 +33,18 @@ export interface NoteResponse {
     errorCode: number;
     message: string;
 }
+
+export interface PageData<T> {
+    pageIndex: number;
+    pageSize: number;
+    pageCount: number;
+    totalCount: number;
+    dataList: T[];
+}
+
+export interface ApiResponse<T> {
+    data: T;
+    successful: boolean;
+    errorCode: number;
+    message: string;
+}
